@@ -1,6 +1,6 @@
+#include "polygon.h"
 
-
-void setPixel(float* PixelBuffer, int x, int y, int viewport_x, int viewport_y) {
-    int index = (3 * viewport_x * y) + (3 * x);
+void setPixel(float* PixelBuffer, Coordinate point, Coordinate viewport) {
+    int index = (3 * viewport.x * point.y) + (3 * point.x);
     PixelBuffer[index] = PixelBuffer[index+1] = PixelBuffer[index+2] = 1;
 }
