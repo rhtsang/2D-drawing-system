@@ -1,7 +1,13 @@
 all: draw
 
 clean:
-	rm -f draw
+	rm -f draw filemanipulation.o polygon.o
 
-draw: HelloGraphics.cpp
-	g++ HelloGraphics.cpp -lglut -lGL -o draw
+draw: main.cpp filemanipulation.o polygon.o
+	g++ main.cpp -lglut -lGL -o draw filemanipulation.o polygon.o
+
+filemanipulation.o: filemanipulation.cpp filemanipulation.h polygon.h
+	g++ -c filemanipulation.cpp
+
+polygon.o: polygon.cpp polygon.h
+	g++ -c polygon.cpp
