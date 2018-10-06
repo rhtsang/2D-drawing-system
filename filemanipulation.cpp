@@ -26,11 +26,13 @@ void readFile(char* fileName, vector<Polygon>& polygons) {
 
     for (int i = 0; i < numPolygons; i++) {
 
+        // Get info about the current polygon
         int numVertices;
         inputFile >> numVertices;
         getline(inputFile, line);
-        vector<Coordinate> coordinates;
 
+        // Get info about the current polygon's vertices
+        vector<Coordinate> coordinates;
         for (int j = 0; j < numVertices; j++) {
 
             float float_x, float_y;
@@ -42,13 +44,15 @@ void readFile(char* fileName, vector<Polygon>& polygons) {
             float_x = stof(string_x);
             float_y = stof(string_y);
 
+            // Store current polygon's vertices info in a vector
             Coordinate point(float_x, float_y);
             coordinates.push_back(point);
 
         }
+
+        // Store current polygon's info in a vector
         Polygon polygon(numVertices, coordinates);
         polygons.push_back(polygon);
-        coordinates.clear();
         getline(inputFile, line);
     }
 
