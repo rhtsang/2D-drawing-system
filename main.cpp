@@ -50,9 +50,11 @@ int main(int argc, char *argv[])
 	for (vector<Polygon>::iterator itr = polygons.begin(); itr != polygons.end(); itr++) {
 		for (int i = 0; i < (itr->vertices).size(); i++) {
 			if (i == (itr->vertices).size() - 1) {
-				dda(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(0), viewport);
+				//dda(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(0), viewport);
+				bresenham(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(0), viewport);
 			} else {
-	        	dda(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(i+1), viewport);
+	        	//dda(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(i+1), viewport);
+				bresenham(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(i+1), viewport);
 			}
 	    }
 	}

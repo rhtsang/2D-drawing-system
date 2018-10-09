@@ -26,16 +26,50 @@ void dda(float* PixelBuffer, Coordinate start, Coordinate end, Coordinate viewpo
 
     Coordinate roundedStart(round(start.x), round(start.y));
     setPixel(PixelBuffer, roundedStart, viewport);
+
     for (k = 0; k < steps; k++) {
         x += xIncrement;
         y += yIncrement;
         Coordinate point(round(x), round(y));
-
         setPixel(PixelBuffer, point, viewport);
     }
 
 }
 
 void bresenham(float* PixelBuffer, Coordinate start, Coordinate end, Coordinate viewport) {
+
+    float slope = (end.y - start.y) / (end.x - start.x);
+
+    int dx = fabs(end.x - start.x),
+        dy = fabs(end.y - start.y),
+        p = 2 * dy - dx,
+        twoDy = 2 * dy,
+        twoDyMinusDx = 2 * (dy - dx),
+        x, y;
+
+    if (start.x > end.x) {
+        x = end.x;
+        y = end.y;
+        end.x = start.x;
+    } else {
+        x = start.x;
+        y = start.y;
+    }
+
+    Coordinate roundedStart(round(x), round(y));
+    setPixel(PixelBuffer, roundedStart, viewport);
+
+    
+    while (x < end.x) {
+        x++;
+        if (p < 0) {
+            p += twoDy;
+        } else {
+            y++;
+            p += twoDyMinusDx;
+        }
+        Coordinate point(round(x), round(y));
+        setPixel(PixelBuffer, point, viewport);
+    }
 
 }
