@@ -65,7 +65,7 @@ if (fabs(slope) < 1) {
         if (p < 0) {
             p += twoDy;
         } else {
-            y++;
+            if (slope > 0) {y++;} else {y--;}
             p += twoDyMinusDx;
         }
         Coordinate point(round(x), round(y));
@@ -97,7 +97,12 @@ if (fabs(slope) < 1) {
         if (p < 0) {
             p += twoDy;
         } else {
-            x++;
+            if (slope > 0) {
+                x++;
+            } else {
+                x--;
+                //cout << "wtf" << endl;
+            }
             p += twoDyMinusDx;
         }
         Coordinate point(round(x), round(y));
