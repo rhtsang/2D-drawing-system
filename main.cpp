@@ -3,6 +3,8 @@
 #include <iostream>
 #include "polygon.h"
 #include "filemanipulation.h"
+#include "pixel.h"
+#include "line.h"
 
 float *PixelBuffer;
 void display();
@@ -43,6 +45,18 @@ int main(int argc, char *argv[])
 
 	writeFile(argv[2], polygons);
 
+	Coordinate viewport(200,200);
+
+	for (vector<Polygon>::iterator itr = polygons.begin(); itr != polygons.end(); itr++) {
+		for (int i = 0; i < (itr->vertices).size(); i++) {
+			if (i == (itr->vertices).size() - 1) {
+				dda(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(0), viewport);
+			} else {
+	        	dda(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(i+1), viewport);
+			}
+	    }
+	}
+
 	glutMainLoop();//main display loop, will display until terminate
 
 	return 0;
@@ -56,7 +70,6 @@ void display()
 	glLoadIdentity();
 
 	//draws pixel on screen, width and height must match pixel buffer dimension
-	//PixelBuffer[3 * 200 * 100 + (150*3)] = 1;
 	glDrawPixels(200, 200, GL_RGB, GL_FLOAT, PixelBuffer);
 
 	//window refresh
