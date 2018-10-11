@@ -5,6 +5,7 @@
 #include "filemanipulation.h"
 #include "pixel.h"
 #include "line.h"
+#include "rasterize.h"
 
 float *PixelBuffer;
 void display();
@@ -58,6 +59,8 @@ int main(int argc, char *argv[])
 			}
 	    }
 	}
+
+	//rasterize(PixelBuffer, polygons, 0, 200, 0, 200, viewport);
 
 	glutMainLoop();//main display loop, will display until terminate
 
