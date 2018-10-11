@@ -3,6 +3,7 @@
 #include <math.h>
 #include "polygon.h"
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -37,6 +38,22 @@ void dda(float* PixelBuffer, Coordinate start, Coordinate end, Coordinate viewpo
 }
 
 void bresenham(float* PixelBuffer, Coordinate start, Coordinate end, Coordinate viewport) {
+
+if ((end.y - start.y) == (end.x - start.x)) {
+    for (int x = min(round(start.x), round(end.x)); x <= max(round(start.x), round(end.x)); x++) {
+        Coordinate point(x, x);
+        setPixel(PixelBuffer, point, viewport);
+    }
+    return;
+} else if ((end.y - start.y) == -1 * (end.x - start.x)) {
+    int y;
+    for (int x = min(round(start.x), round(end.x)), y = max(round(start.y), round(end.y)); x <= max(round(start.x), round(end.x)); x++, y--) {
+        Coordinate point(x, y);
+        setPixel(PixelBuffer, point, viewport);
+    }
+    return;
+
+}
 
     float slope = (end.y - start.y) / (end.x - start.x);
 if (fabs(slope) < 1) {
