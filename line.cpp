@@ -44,7 +44,6 @@ if ((end.y - start.y) == (end.x - start.x)) {
     for (int x = min(round(start.x), round(end.x)); x <= max(round(start.x), round(end.x)); x++) {
         Coordinate point(x, y++);
         setPixel(PixelBuffer, point, viewport);
-        cout << x << " " << x << endl;
     }
     return;
 } else if ((end.y - start.y) == -1 * (end.x - start.x)) {
