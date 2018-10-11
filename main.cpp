@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 	    }
 	}
 
-	//rasterize(PixelBuffer, polygons, 0, 200, 0, 200, viewport);
+	rasterize(PixelBuffer, polygons, 0, 200, 0, 200, viewport);
 
 	glutMainLoop();//main display loop, will display until terminate
 
