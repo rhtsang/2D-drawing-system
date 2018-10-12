@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
 
 	//allocate new pixel buffer, need initialization!!
 	PixelBuffer = new float[200 * 200 * 3];
+    //cout << sizeof(PixelBuffer) << endl;
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE);
@@ -48,19 +49,19 @@ int main(int argc, char *argv[])
 
 	Coordinate viewport(200,200);
 
-	for (vector<Polygon>::iterator itr = polygons.begin(); itr != polygons.end(); itr++) {
-		for (int i = 0; i < (itr->vertices).size(); i++) {
-			if (i == (itr->vertices).size() - 1) {
-				//dda(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(0), viewport);
-				bresenham(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(0), viewport);
-			} else {
-	        	//dda(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(i+1), viewport);
-				bresenham(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(i+1), viewport);
-			}
-	    }
-	}
+	// for (vector<Polygon>::iterator itr = polygons.begin(); itr != polygons.end(); itr++) {
+	// 	for (int i = 0; i < (itr->vertices).size(); i++) {
+	// 		if (i == (itr->vertices).size() - 1) {
+	// 			//dda(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(0), viewport);
+	// 			bresenham(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(0), viewport);
+	// 		} else {
+	//         	//dda(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(i+1), viewport);
+	// 			bresenham(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(i+1), viewport);
+	// 		}
+	//     }
+	// }
 
-	rasterize(PixelBuffer, polygons, 0, 200, 0, 200, viewport);
+	rasterize(PixelBuffer, polygons, viewport);
 
 	glutMainLoop();//main display loop, will display until terminate
 

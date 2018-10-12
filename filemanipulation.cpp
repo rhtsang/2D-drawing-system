@@ -5,6 +5,7 @@
 #include <sstream>
 #include <iostream>
 #include "polygon.h"
+#include <string>
 
 using namespace std;
 
