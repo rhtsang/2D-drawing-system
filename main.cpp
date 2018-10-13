@@ -6,6 +6,7 @@
 #include "pixel.h"
 #include "line.h"
 #include "rasterize.h"
+#include "transform.h"
 
 float *PixelBuffer;
 void display();
@@ -61,6 +62,9 @@ int main(int argc, char *argv[])
 	//     }
 	// }
 
+    //translate(polygons, 1, -50, -50);
+    scale(polygons, 2, .25);
+    rotate(polygons, 2, -90);
 	rasterize(PixelBuffer, polygons, viewport);
 
 	glutMainLoop();//main display loop, will display until terminate
