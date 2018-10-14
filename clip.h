@@ -4,6 +4,6 @@
 #include "polygon.h"
 #include <vector>
 
-vector<Polygon> clip(vector<Polygon> polygons, int x_min, int x_max, int y_min, int y_max);
+vector<Polygon> clip(vector<Polygon> polygons, float x_min, float x_max, float y_min, float y_max);
 
 #endif
