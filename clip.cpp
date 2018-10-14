@@ -3,6 +3,7 @@
 #include "polygon.h"
 #include <vector>
 #include <iostream>
+#include <cstdlib>
 
 using namespace std;
 
@@ -35,8 +36,112 @@ vector<Polygon> clip(vector<Polygon> polygons, float x_min, float x_max, float y
             }
 
             if (start->x == end->x) { // if vertical line, can't calculate slope due to division by zero
-            // check for horizontal line as well
-                    ;
+                float new_x, new_y;
+                if (start->x >= x_min && start->x <= x_max) {
+                    new_x = start->x;
+                } else if (start->x < x_min) {
+                    new_x = x_min;
+                } else if (start->x > x_max) {
+                    new_x = x_max;
+                }
+                //cout << new_x << endl;
+                if (start->y < y_min) {
+                    if ((end->y >= y_min && end->y < y_max) || (end->y < y_min)) {
+                        new_y = y_min;
+                        Coordinate newVertex(new_x, new_y);
+                        clippedCoordinates.push_back(newVertex);
+                    } else if (end->y >= y_max) {
+                        new_y = y_min;
+                        Coordinate newVertex(new_x, new_y);
+                        clippedCoordinates.push_back(newVertex);
+                        new_y = y_max;
+                        Coordinate newVertex2(new_x, new_y);
+                        clippedCoordinates.push_back(newVertex2);
+                    }
+                } else if (start->y > y_max) {
+                    if ((end->y > y_min && end->y <= y_max) || (end->y > y_max)) {
+                        new_y = y_max;
+                        Coordinate newVertex(new_x, new_y);
+                        clippedCoordinates.push_back(newVertex);
+                    } else if (end->y <= y_min) {
+                        new_y = y_max;
+                        Coordinate newVertex(new_x, new_y);
+                        clippedCoordinates.push_back(newVertex);
+                        new_y = y_min;
+                        Coordinate newVertex2(new_x, new_y);
+                        clippedCoordinates.push_back(newVertex2);
+                    }
+                } else if (start->y >= y_min && start->y <= y_max) {
+                    if (end->y >= y_min && end->y <= y_max) {
+                        Coordinate newVertex(new_x, start->y);
+                        clippedCoordinates.push_back(newVertex);
+                        Coordinate newVertex2(new_x, end->y);
+                        clippedCoordinates.push_back(newVertex2);
+                    } else if (end->y < y_min) {
+                        Coordinate newVertex(new_x, start->y);
+                        clippedCoordinates.push_back(newVertex);
+                        Coordinate newVertex2(new_x, y_min);
+                        clippedCoordinates.push_back(newVertex2);
+                    } else if (end->y > y_max) {
+                        Coordinate newVertex(new_x, start->y);
+                        clippedCoordinates.push_back(newVertex);
+                        Coordinate newVertex2(new_x, y_max);
+                        clippedCoordinates.push_back(newVertex2);
+                    }
+                }
+            } else if (start->y == end->y) { // same thing w horizontal lines
+                float new_x, new_y;
+                if (start->y >= y_min && start->y <= y_max) {
+                    new_y = start->y;
+                } else if (start->y < y_min) {
+                    new_y = y_min;
+                } else if (start->y > y_max) {
+                    new_y = y_max;
+                }
+                if (start->x < x_min) {
+                    if ((end->x >= x_min && end->x < x_max) || (end->x < x_min)) {
+                        new_x = x_min;
+                        Coordinate newVertex(new_x, new_y);
+                        clippedCoordinates.push_back(newVertex);
+                    } else if (end->x >= x_max) {
+                        new_x = x_min;
+                        Coordinate newVertex(new_x, new_y);
+                        clippedCoordinates.push_back(newVertex);
+                        new_x = x_max;
+                        Coordinate newVertex2(new_x, new_y);
+                        clippedCoordinates.push_back(newVertex2);
+                    }
+                } else if (start->x > x_max) {
+                    if ((end->x > x_min && end->x <= x_max) || (end->x > x_max)) {
+                        new_x = x_max;
+                        Coordinate newVertex(new_x, new_y);
+                        clippedCoordinates.push_back(newVertex);
+                    } else if (end->x <= x_min) {
+                        new_x = x_max;
+                        Coordinate newVertex(new_x, new_y);
+                        clippedCoordinates.push_back(newVertex);
+                        new_x = x_min;
+                        Coordinate newVertex2(new_x, new_y);
+                        clippedCoordinates.push_back(newVertex2);
+                    }
+                } else if (start->x >= x_min && start->x <= x_max) {
+                    if (end->x >= x_min && end->x <= x_max) {
+                        Coordinate newVertex(start->x, new_y);
+                        clippedCoordinates.push_back(newVertex);
+                        Coordinate newVertex2(end->x, new_y);
+                        clippedCoordinates.push_back(newVertex2);
+                    } else if (end->x < x_min) {
+                        Coordinate newVertex(start->x, new_y);
+                        clippedCoordinates.push_back(newVertex);
+                        Coordinate newVertex2(x_min, new_y);
+                        clippedCoordinates.push_back(newVertex2);
+                    } else if (end->x > x_max) {
+                        Coordinate newVertex(start->x, new_y);
+                        clippedCoordinates.push_back(newVertex);
+                        Coordinate newVertex2(x_max, new_y);
+                        clippedCoordinates.push_back(newVertex2);
+                    }
+                }
             } else { // normal line, so can calculate slope and use it
                 float slope = (end->y - start->y) / (end->x - start->x);
                 float b = start->y - (slope * start->x);
