@@ -67,9 +67,9 @@ int main(int argc, char *argv[])
     //scale(polygons, 1, 2);
     //rotate(polygons, 2, -90);
     //vector<Polygon> clipped = clip(polygons, 0, 200, 0, 200);
-    vector<Polygon> clipped = clip(polygons, 50, 150, 50, 150);
+    vector<Polygon> clipped = clip(polygons, 0, 200, 0, 200);
     writeFile(argv[2], clipped);
-	rasterize(PixelBuffer, clipped, viewport);
+	rasterize(PixelBuffer, clipped, viewport, 'd');
 
 	glutMainLoop();//main display loop, will display until terminate
 

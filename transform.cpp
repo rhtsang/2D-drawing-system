@@ -2,28 +2,21 @@
 
 #include "polygon.h"
 #include <vector>
-#include <iostream>
 #include <cmath>
 
 using namespace std;
 
 void translate(vector<Polygon>& polygons, int index, float translate_x, float translate_y) {
     for (int i = 0; i < polygons.at(index).vertices.size(); i++) {
-        //cout << "before: " << polygons.at(index).vertices.at(i).x << " " << polygons.at(index).vertices.at(i).y << endl;
         polygons.at(index).vertices.at(i).x += translate_x;
         polygons.at(index).vertices.at(i).y += translate_y;
-    }
-
-
-    for (int i = 0; i < polygons.at(index).vertices.size(); i++) {
-        //cout << "after: " << polygons.at(index).vertices.at(i).x << " " << polygons.at(index).vertices.at(i).y << endl;
     }
 }
 
 void scale(vector<Polygon>& polygons, int index, float factor) {
+
     float centroid_x = 0;
     float centroid_y = 0;
-
     for (int i = 0; i < polygons.at(index).vertices.size(); i++) {
         centroid_x += polygons.at(index).vertices.at(i).x;
         centroid_y += polygons.at(index).vertices.at(i).y;
@@ -46,7 +39,6 @@ void rotate(vector<Polygon>& polygons, int index, float angle) {
 
     float centroid_x = 0;
     float centroid_y = 0;
-
     for (int i = 0; i < polygons.at(index).vertices.size(); i++) {
         centroid_x += polygons.at(index).vertices.at(i).x;
         centroid_y += polygons.at(index).vertices.at(i).y;

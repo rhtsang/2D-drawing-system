@@ -2,18 +2,19 @@
 
 #include "polygon.h"
 #include <vector>
-#include <iostream>
 #include <cstdlib>
 
 using namespace std;
 
+// implementation of Sutherland-Hodgman polygon clipping, described on page 259 of the textbook
 vector<Polygon> clip(vector<Polygon> polygons, float x_min, float x_max, float y_min, float y_max) {
 
     vector<Polygon> clippedPolygons;
 
+    // loop through all polygons to clip each of its edges
     for (vector<Polygon>::iterator itr = polygons.begin(); itr != polygons.end(); itr++) {
 
-        // clip left
+        // clip left at x_min
         vector<Coordinate> postClipLeft;
         for (int i = 0; i < (itr->vertices).size(); i++) {
 
@@ -51,7 +52,7 @@ vector<Polygon> clip(vector<Polygon> polygons, float x_min, float x_max, float y
             }
         }
 
-        // clip right
+        // clip right at x_max
         vector<Coordinate> postClipRight;
         for (int i = 0; i < postClipLeft.size(); i++) {
 
@@ -89,7 +90,7 @@ vector<Polygon> clip(vector<Polygon> polygons, float x_min, float x_max, float y
             }
         }
 
-        // clip bottom
+        // clip bottom at y_min
         vector<Coordinate> postClipBottom;
         for (int i = 0; i < postClipRight.size(); i++) {
 
@@ -138,7 +139,7 @@ vector<Polygon> clip(vector<Polygon> polygons, float x_min, float x_max, float y
             }
         }
 
-        // clip top
+        // clip top at y_max
         vector<Coordinate> postClipTop;
         for (int i = 0; i < postClipBottom.size(); i++) {
 
@@ -187,6 +188,7 @@ vector<Polygon> clip(vector<Polygon> polygons, float x_min, float x_max, float y
             }
         }
 
+        // construct a new Polygon object with its new clipped vertices
         Polygon poly(postClipTop.size(), postClipTop);
         clippedPolygons.push_back(poly);
     }
