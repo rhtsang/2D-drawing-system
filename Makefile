@@ -1,10 +1,10 @@
 all: draw
 
 clean:
-	rm -f draw filemanipulation.o polygon.o pixel.o line.o rasterize.o transform.o
+	rm -f draw filemanipulation.o polygon.o pixel.o line.o rasterize.o transform.o clip.o
 
-draw: main.cpp filemanipulation.o polygon.o pixel.o line.o rasterize.o transform.o
-	g++ main.cpp -lglut -lGL -o draw filemanipulation.o polygon.o pixel.o line.o rasterize.o transform.o
+draw: main.cpp filemanipulation.o polygon.o pixel.o line.o rasterize.o transform.o clip.o
+	g++ main.cpp -lglut -lGL -o draw filemanipulation.o polygon.o pixel.o line.o rasterize.o transform.o clip.o
 
 filemanipulation.o: filemanipulation.cpp filemanipulation.h
 	g++ -std=c++11 -c filemanipulation.cpp
@@ -23,3 +23,6 @@ rasterize.o: rasterize.cpp rasterize.h
 
 transform.o: transform.cpp transform.h
 	g++ -c transform.cpp
+
+clip.o: clip.cpp clip.h
+	g++ -c clip.cpp

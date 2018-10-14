@@ -7,6 +7,7 @@
 #include "line.h"
 #include "rasterize.h"
 #include "transform.h"
+#include "clip.h"
 
 float *PixelBuffer;
 void display();
@@ -46,7 +47,7 @@ int main(int argc, char *argv[])
 
 // do drawing changes here, after reading input and before writing output
 
-	writeFile(argv[2], polygons);
+	//writeFile(argv[2], polygons);
 
 	Coordinate viewport(200,200);
 
@@ -63,9 +64,12 @@ int main(int argc, char *argv[])
 	// }
 
     //translate(polygons, 1, -50, -50);
-    scale(polygons, 2, .25);
-    rotate(polygons, 2, -90);
-	rasterize(PixelBuffer, polygons, viewport);
+    //scale(polygons, 1, 2);
+    //rotate(polygons, 2, -90);
+    //vector<Polygon> clipped = clip(polygons, 0, 200, 0, 200);
+    vector<Polygon> clipped = clip(polygons, 50, 150, 50, 150);
+    writeFile(argv[2], clipped);
+	rasterize(PixelBuffer, clipped, viewport);
 
 	glutMainLoop();//main display loop, will display until terminate
 
