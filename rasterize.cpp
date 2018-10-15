@@ -21,13 +21,13 @@ void rasterize(float* PixelBuffer, vector<Polygon> polygons, Coordinate viewport
 		for (int i = 0; i < (itr->vertices).size(); i++) {
 			if (i == (itr->vertices).size() - 1) {
                 if (lineMode == 'd') {
-    				dda(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(0), viewport);
+    				dda(DrawBuffer, (itr->vertices).at(i), (itr->vertices).at(0), viewport);
                 } else if (lineMode == 'b') {
     				bresenham(DrawBuffer, (itr->vertices).at(i), (itr->vertices).at(0), viewport);
                 }
 			} else {
                 if (lineMode == 'd') {
-    	        	dda(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(i+1), viewport);
+    	        	dda(DrawBuffer, (itr->vertices).at(i), (itr->vertices).at(i+1), viewport);
                 } else if (lineMode == 'b') {
     				bresenham(DrawBuffer, (itr->vertices).at(i), (itr->vertices).at(i+1), viewport);
                 }
