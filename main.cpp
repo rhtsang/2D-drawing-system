@@ -15,61 +15,76 @@ void display();
 int main(int argc, char *argv[])
 {
 
-	// // User interaction
-	// int polygonID, viewport_x, viewport_y;
-	// //scaling factor, translation vector, rotation angle
-	// cout << "Enter the ID of the polygon you want to manipulate: ";
-	// cin >> polygonID;
-	// cout << "Enter the width (x-length) of the viewport: ";
-	// cin >> viewport_x;
-	// cout << "Enter the height (y-length) of the viewport: ";
-	// cin >> viewport_y;
+	// User interaction
 
-	//allocate new pixel buffer, need initialization!!
-	PixelBuffer = new float[200 * 200 * 3];
-    //cout << sizeof(PixelBuffer) << endl;
+    // viewport
+    int width, height;
+    cout << "Enter the width of the viewing window: ";
+    cin >> width;
+    cout << "Enter the height of the viewing window: ";
+    cin >> height;
+	PixelBuffer = new float[width * height * 3];
+
+    // transformation prompt
+	int polygonID;
+    char transformation;
+    char lineMode;
+	cout << "Enter the ID of the polygon you want to manipulate (indexing starts at 0): ";
+	cin >> polygonID;
+    cout << "Enter the first letter of the transformation you want performed. 's' for scale, 'r' for rotate, 't' for translate: ";
+    cin >> transformation;
+    cout << "How would you like edges to be drawn? Enter 'b' for Bresenham or 'd' for DDA:";
+    cin >> lineMode;
+
+    vector<Polygon> polygons;
+	readFile(argv[1], polygons);
+    if (transformation == 't') {
+        float translate_x, translate_y;
+        cout << "How far along the x-axis would you like to translate? ";
+        cin >> translate_x;
+        cout << "How far along the x-axis would you like to translate? ";
+        cin >> translate_y;
+        translate(polygons, polygonID, translate_x, translate_y);
+    } else if (transformation == 'r') {
+        float angle;
+        cout << "How far would you like to rotate? (enter an angle in degrees) ";
+        cin >> angle;
+        rotate(polygons, polygonID, angle);
+    } else if (transformation == 's') {
+        float factor;
+        cout << "How much would you like to scale? ";
+        cin >> factor;
+        scale(polygons, polygonID, factor);
+    }
+    writeFile(argv[2], polygons);
+
+    Coordinate viewport(width, height);
+
+    // clip window
+    float x_min, x_max, y_min, y_max;
+    cout << "Enter x_min of the clip window: ";
+    cin >> x_min;
+    cout << "Enter x_max of the clip window: ";
+    cin >> x_max;
+    cout << "Enter y_min of the clip window: ";
+    cin >> y_min;
+    cout << "Enter y_max of the clip window: ";
+    cin >> y_max;
+
+    // get clipped vertices before rasterizing and drawing to screen
+    vector<Polygon> clipped = clip(polygons, x_min, x_max, y_min, y_max);
+	rasterize(PixelBuffer, clipped, viewport, lineMode);
+
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE);
-	//set window size to 200*200
-	glutInitWindowSize(200, 200);
-	//set window position
-	glutInitWindowPosition(100, 100);
+	glutInitWindowSize(width, height);
+	glutInitWindowPosition(width/2, height/2);
 
 	//create and set main window title
-	int MainWindow = glutCreateWindow("Hello Graphics!");
+	int MainWindow = glutCreateWindow("ECS175 Project 1");
 	glClearColor(0, 0, 0, 0); //clears the buffer of OpenGL
-	//sets display function
 	glutDisplayFunc(display);
-
-	vector<Polygon> polygons;
-	readFile(argv[1], polygons);
-
-// do drawing changes here, after reading input and before writing output
-
-	//writeFile(argv[2], polygons);
-
-	Coordinate viewport(200,200);
-
-	// for (vector<Polygon>::iterator itr = polygons.begin(); itr != polygons.end(); itr++) {
-	// 	for (int i = 0; i < (itr->vertices).size(); i++) {
-	// 		if (i == (itr->vertices).size() - 1) {
-	// 			//dda(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(0), viewport);
-	// 			bresenham(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(0), viewport);
-	// 		} else {
-	//         	//dda(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(i+1), viewport);
-	// 			bresenham(PixelBuffer, (itr->vertices).at(i), (itr->vertices).at(i+1), viewport);
-	// 		}
-	//     }
-	// }
-
-    //translate(polygons, 1, -50, -50);
-    //scale(polygons, 1, 2);
-    //rotate(polygons, 2, -90);
-    //vector<Polygon> clipped = clip(polygons, 0, 200, 0, 200);
-    vector<Polygon> clipped = clip(polygons, 0, 200, 0, 200);
-    writeFile(argv[2], clipped);
-	rasterize(PixelBuffer, clipped, viewport, 'd');
 
 	glutMainLoop();//main display loop, will display until terminate
 
