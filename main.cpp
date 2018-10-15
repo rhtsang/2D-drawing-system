@@ -10,6 +10,7 @@
 #include "clip.h"
 
 float *PixelBuffer;
+int width, height;
 void display();
 
 int main(int argc, char *argv[])
@@ -18,7 +19,6 @@ int main(int argc, char *argv[])
 	// User interaction
 
     // viewport
-    int width, height;
     cout << "Enter the width of the viewing window: ";
     cin >> width;
     cout << "Enter the height of the viewing window: ";
@@ -99,7 +99,7 @@ void display()
 	glLoadIdentity();
 
 	//draws pixel on screen, width and height must match pixel buffer dimension
-	glDrawPixels(200, 200, GL_RGB, GL_FLOAT, PixelBuffer);
+	glDrawPixels(width, height, GL_RGB, GL_FLOAT, PixelBuffer);
 
 	//window refresh
 	glFlush();
